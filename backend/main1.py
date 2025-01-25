@@ -19,21 +19,21 @@ origins =[
 
 app.add_middleware(
     CORSMiddleware,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allowed_credentials=True,
+    allowed_headers=["*"]
+    allowed_methods=["*"],
 )
 
 memory_db = {"novels": []}
 
 @app.get(path="/novels", response_model=Novels)
-def get_novel():
+def get_novels():
     return Novels(novels=memory_db["novels"])
 
 @app.post(path="/novels", response_model=Novel)
 def add_novel(novel: Novel):
-    memory_db["novels"].append[novel]
+    memory_db["novels"].append(novel)
     return novel
 
-if __init__ == "__main__":
+if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
