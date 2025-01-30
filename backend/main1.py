@@ -1,33 +1,33 @@
 import uvicorn
-from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 
 class Novel(BaseModel):
-    name:str
-    chapterCount:int
+    name: str
+    chapterCount: int
 
 class Novels(BaseModel):
     novels: List[Novel]
 
 app = FastAPI()
 
-origins =[
+origins = [
     "http://localhost:3000"
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allowed_credentials=True,
-    allowed_headers=["*"]
     allowed_methods=["*"],
+    allowed_headers=["*"],
 )
 
 memory_db = {"novels": []}
 
 @app.get(path="/novels", response_model=Novels)
-def get_novels():
+def get_novel():
     return Novels(novels=memory_db["novels"])
 
 @app.post(path="/novels", response_model=Novel)
